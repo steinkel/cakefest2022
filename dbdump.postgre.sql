@@ -26,10 +26,10 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.documents (
     id integer NOT NULL,
-    "originalName" text NOT NULL,
+    original_name text NOT NULL,
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL,
-    "relativeFilePath" text NOT NULL,
+    relative_file_path text NOT NULL,
     status character varying(255) NOT NULL
 );
 
@@ -84,7 +84,7 @@ ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.do
 -- Data for Name: documents; Type: TABLE DATA; Schema: public; Owner: my_app
 --
 
-COPY public.documents (id, "originalName", created, modified, "relativeFilePath", status) FROM stdin;
+COPY public.documents (id, original_name, created, modified, relative_file_path, status) FROM stdin;
 \.
 
 
