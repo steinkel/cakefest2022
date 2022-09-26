@@ -26,11 +26,11 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.documents (
     id integer NOT NULL,
-    original_name text NOT NULL,
+    original_name text NULL,
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL,
-    relative_file_path text NOT NULL,
-    status character varying(255) NOT NULL
+    relative_file_path text NULL,
+    status character varying(255) NULL
 );
 
 
