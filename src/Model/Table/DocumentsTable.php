@@ -56,19 +56,16 @@ class DocumentsTable extends Table
     {
         $validator
             ->scalar('original_name')
-            ->requirePresence('original_name', 'create')
-            ->notEmptyString('original_name');
+            ->allowEmptyString('original_name');
 
         $validator
             ->scalar('relative_file_path')
-            ->requirePresence('relative_file_path', 'create')
-            ->notEmptyFile('relative_file_path');
+            ->allowEmptyFile('relative_file_path');
 
         $validator
             ->scalar('status')
             ->maxLength('status', 255)
-            ->requirePresence('status', 'create')
-            ->notEmptyString('status');
+            ->allowEmptyString('status');
 
         return $validator;
     }

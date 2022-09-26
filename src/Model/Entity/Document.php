@@ -9,11 +9,11 @@ use Cake\ORM\Entity;
  * Document Entity
  *
  * @property int $id
- * @property string $original_name
+ * @property string|null $original_name
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
- * @property string $relative_file_path
- * @property string $status
+ * @property string|null $relative_file_path
+ * @property string|null $status
  */
 class Document extends Entity
 {
