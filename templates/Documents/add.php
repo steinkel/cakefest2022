@@ -13,13 +13,11 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="documents form content">
-            <?= $this->Form->create($document) ?>
+            <?= $this->Form->create($document, ['type' => 'file']) ?>
             <fieldset>
-                <legend><?= __('Add Document') ?></legend>
+                <legend><?= __('Upload') ?></legend>
                 <?php
-                    echo $this->Form->control('original_name');
-                    echo $this->Form->control('relative_file_path');
-                    echo $this->Form->control('status');
+                    echo $this->Form->file('file');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

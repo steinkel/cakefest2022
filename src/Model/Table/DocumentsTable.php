@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Document;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 
 /**
@@ -68,5 +71,30 @@ class DocumentsTable extends Table
             ->allowEmptyString('status');
 
         return $validator;
+    }
+
+    public function beforeSave(EventInterface $event, Document $document, \ArrayObject $options)
+    {
+        $document->relative_file_path = $this->handleUpload($document);
+    }
+
+    protected function handleUpload(Document $document): ?string
+    {
+        /**
+         * @var \Psr\Http\Message\UploadedFileInterface $upload
+         */
+        if (!$upload = $document->get('file')) {
+            return null;
+        }        
+        if ($error = $upload->getError()) {
+            $document->setError('file', $error);
+            return null;
+        }
+        // move the file to files
+        $targetName = 'upload-' . Text::uuid();
+        $uploadFullPath = TMP . $targetName;
+        $upload->moveTo($uploadFullPath);
+
+        return $targetName;
     }
 }

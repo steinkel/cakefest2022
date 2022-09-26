@@ -32,5 +32,6 @@ class Document extends Entity
         'modified' => true,
         'relative_file_path' => true,
         'status' => true,
+        'file' => true,
     ];
 }
