@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Job\OcrJob;
 use App\Model\Entity\Document;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -10,6 +11,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use Cake\Queue\QueueManager;
 
 /**
  * Documents Model
@@ -75,7 +77,14 @@ class DocumentsTable extends Table
 
     public function beforeSave(EventInterface $event, Document $document, \ArrayObject $options)
     {
-        $document->relative_file_path = $this->handleUpload($document);
+        $document->relative_file_path = $this->handleUpload($document);        
+    }
+
+    public function afterSave(EventInterface $event, Document $document, \ArrayObject $options)
+    {
+        if ($document->get('relative_file_path')) {
+            $this->pushJob($document);
+        }
     }
 
     protected function handleUpload(Document $document): ?string
@@ -96,5 +105,18 @@ class DocumentsTable extends Table
         $upload->moveTo($uploadFullPath);
 
         return $targetName;
+    }
+
+    protected function pushJob(Document $document): void
+    {
+        QueueManager::push(OcrJob::class, [
+            'documentId' => $document->get('id'),
+        ]);
+    }
+
+
+    public function ocr(): void
+    {
+        // does something
     }
 }

@@ -421,4 +421,12 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+    'Queue' => [
+        'default' => [
+            'url' => 'file://' . TMP,
+            'queue' => 'default',
+            'logger' => 'stdout',
+            'receiveTimeout' => 1000,
+        ]
+    ],
 ];
