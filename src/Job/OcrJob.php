@@ -30,7 +30,7 @@ class OcrJob implements JobInterface
     public function execute(Message $message): ?string
     {
         try {
-            $this->fetchTable('Documents')->ocr($message->getArgument('documentId'));
+            $this->fetchTable('Documents')->ocr((int)$message->getArgument('documentId'));
         } catch (\Exception $ex) {
             \Cake\Log\Log::error($ex->getMessage());
             

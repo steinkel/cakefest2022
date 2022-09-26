@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Job\OcrJob;
 use App\Model\Entity\Document;
+use App\Model\Ocr\OcrProcessor;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -115,8 +116,9 @@ class DocumentsTable extends Table
     }
 
 
-    public function ocr(): void
+    public function ocr(int $documentId): void
     {
-        // does something
+        $processor = new OcrProcessor($this->get($documentId));
+        $processor->ocr();
     }
 }
