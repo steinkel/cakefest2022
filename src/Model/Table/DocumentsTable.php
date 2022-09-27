@@ -7,12 +7,10 @@ use App\Job\OcrJob;
 use App\Model\Entity\Document;
 use App\Model\Ocr\OcrProcessor;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Queue\QueueManager;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
-use Cake\Queue\QueueManager;
 
 /**
  * Documents Model
@@ -30,7 +28,6 @@ use Cake\Queue\QueueManager;
  * @method \App\Model\Entity\Document[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Document[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Document[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class DocumentsTable extends Table
@@ -78,7 +75,7 @@ class DocumentsTable extends Table
 
     public function beforeSave(EventInterface $event, Document $document, \ArrayObject $options)
     {
-        $document->relative_file_path = $this->handleUpload($document);        
+        $document->relative_file_path = $this->handleUpload($document);
     }
 
     public function afterSave(EventInterface $event, Document $document, \ArrayObject $options)
@@ -95,9 +92,10 @@ class DocumentsTable extends Table
          */
         if (!$upload = $document->get('file')) {
             return null;
-        }        
+        }
         if ($error = $upload->getError()) {
             $document->setError('file', $error);
+
             return null;
         }
         // move the file to files
@@ -114,7 +112,6 @@ class DocumentsTable extends Table
             'documentId' => $document->get('id'),
         ]);
     }
-
 
     public function ocr(int $documentId): void
     {

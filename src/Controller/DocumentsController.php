@@ -110,7 +110,6 @@ class DocumentsController extends AppController
         $this->set('documents', $documentsIndex->find()
             ->where(['content' => $content])
             ->limit(20)
-            ->toArray()
-        );
+            ->toArray());
     }
 }
