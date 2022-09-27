@@ -347,6 +347,14 @@ return [
             'log' => false,
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
         ],
+        'elastic' => [
+            'url' => env('ELASTIC_URL', "Cake\ElasticSearch\Datasource\Connection://elasticsearch:9200?driver=Cake\ElasticSearch\Datasource\Connection"),
+//            'className' => 'Cake\ElasticSearch\Datasource\Connection',
+//            'driver' => 'Cake\ElasticSearch\Datasource\Connection',
+//            'host' => '127.0.0.1',
+//            'port' => 9200,
+//            'index' => 'my_apps_index',
+        ],
     ],
 
     /*

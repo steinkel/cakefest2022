@@ -65,6 +65,7 @@ class Application extends BaseApplication
 
         // Load more plugins here
         $this->addPlugin('Cake/Queue');
+        $this->addPlugin('Cake/ElasticSearch');
     }
 
     /**
