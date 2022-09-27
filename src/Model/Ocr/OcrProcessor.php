@@ -71,6 +71,16 @@ class OcrProcessor
 
     protected function buildIndex(): OcrProcessor
     {
+        $documentsIndex = \Cake\Datasource\FactoryLocator::get('Elastic')->get('Documents');
+        $document = $documentsIndex->newEntity([
+            'content' => $this->extractedText,
+            'documentId' => (string)$this->document->get('id'),
+        ]);
+        if (!$documentsIndex->save($document)) {
+            throw new \OutOfBoundsException('Unable to generate index');
+        }        
+        \Cake\Log\Log::info('Document index saved OK');
+
         return $this;
     }
 }
