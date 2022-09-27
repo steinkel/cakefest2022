@@ -102,4 +102,15 @@ class DocumentsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function search()
+    {
+        $content = $this->request->getQuery('q', 'none');
+        $documentsIndex = \Cake\Datasource\FactoryLocator::get('Elastic')->get('Documents');
+        $this->set('documents', $documentsIndex->find()
+            ->where(['content' => $content])
+            ->limit(20)
+            ->toArray()
+        );
+    }
 }
